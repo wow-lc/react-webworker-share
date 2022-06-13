@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .body-container,
+        .heading-container {
+            padding: 0 20px;
+        }
+
+        .heading-container {
+            padding: 20px;
+            color: white;
+            background: #7a84dd;
+        }
+
+        cd .body-container .heading-container>h1 {
+            margin: 0;
+        }
+
+        .body-container {
+            width: 50%
+        }
+
+        .input-div {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .results {
+            width: 50vw;
+        }
+
+        .results>p {
+            font-size: 24px;
+        }
+
+        .result-div {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: #e09bb7;
+        }
+
+        .result-div p {
+            margin: 5px;
+        }
+
+        span.bold {
+            font-weight: bold;
+        }
+
+        input {
+            font-size: 25px;
+        }
+
+        p.error {
+            color: red;
+        }
+
+        .number-input {
+            padding: 7.5px 10px;
+        }
+
+        .btn-submit {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #07f;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="heading-container">
+        <h1>Computing the nth Fibonnaci number</h1>
+    </div>
+    <div class="body-container">
+        <p id='error' class="error"></p>
+        <div class="input-div">
+            <input id='number-input' class="number-input" type='number' placeholder="Enter a number" />
+            <button id='submit-btn' class="btn-submit">Calculate</button>
+        </div>
+        <div id='results-container' class="results"></div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
