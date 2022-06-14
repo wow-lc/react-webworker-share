@@ -3,28 +3,61 @@ import "./App.css";
 import { ordinal_suffix } from "./helpers";
 import { reducer } from './reducer'
 import { Results } from "./components/Results";
+
+import SWorker from 'simple-web-worker'
+
 function App() {
   const [info, dispatch] = React.useReducer(reducer, {
     err: "",
     num: "",
     computedFibs: [],
   });
-  const runWorker = (num, id) => {
-    dispatch({ type: "SET_ERROR", err: "" });
-    const worker = new window.Worker('./fib-worker.js')
-    worker.postMessage({ num });
-    worker.onerror = (err) => err;
-    worker.onmessage = (e) => {
-      const { time, fibNum } = e.data;
+
+  /** 常规版 */
+  // const runWorker = (num, id) => {
+  //   dispatch({ type: "SET_ERROR", err: "" });
+  //   const worker = new window.Worker('./fib-worker.js')
+  //   worker.postMessage({ num });
+  //   worker.onerror = (err) => err;
+  //   worker.onmessage = (e) => {
+  //     const { time, fibNum } = e.data;
+  //     dispatch({
+  //       type: "UPDATE_FIBO",
+  //       id,
+  //       time,
+  //       fibNum,
+  //     });
+  //     worker.terminate();
+  //   };
+  // };
+
+  /** 
+   * 使用simple-web-worker 优雅实现web workers 
+   * https://github.com/israelss/simple-web-worker
+   * */
+  const runWorker = (num, id) => { 
+    SWorker.run((num) => {
+      const startTime = new Date().getTime();
+      const fib = (n) => (n < 2 ? n : fib(n - 1) + fib(n - 2));
+      const fibNum = fib(num);
+
+      return {
+        fibNum,
+        time: new Date().getTime() - startTime,
+      }
+    }, [num])
+    .then((data) => { 
+      const { time, fibNum } = data;
       dispatch({
         type: "UPDATE_FIBO",
         id,
         time,
         fibNum,
       });
-      worker.terminate();
-    };
-  };
+    })
+    .catch(console.error)
+  }
+  
   return (
     <div>
       <div className="heading-container">
